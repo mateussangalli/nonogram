@@ -1,8 +1,14 @@
 use yew::prelude::*;
 
-pub struct Nonogram {
+mod grid;
+mod rule_bar;
+
+use grid::Grid;
+use rule_bar::RowRuleBar;
+
+struct Nonogram {
     rows: u32,
-    columns: u32,
+    cols: u32,
 }
 
 impl Component for Nonogram {
@@ -11,10 +17,7 @@ impl Component for Nonogram {
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Nonogram {
-            rows: 10,
-            columns: 10,
-        }
+        Nonogram { rows: 10, cols: 10 }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
@@ -22,28 +25,16 @@ impl Component for Nonogram {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        let rules = vec![vec![0], vec![1, 2], vec![0]];
         html! {
-            <div class="nonogram-board">
-            {
-                for (0..self.rows).map(|row| { self.render_row(row) })
-            }
+            <div class="nonogram-container">
+                <div>
+                    <RowRuleBar rules={rules}></RowRuleBar>
+                </div>
+                <div>
+                    <Grid rows=3 columns=3></Grid>
+                </div>
             </div>
-        }
-    }
-}
-
-impl Nonogram {
-    fn render_row(&self, row: u32) -> Html {
-        html! {
-            <div class="row">
-                { for (0..self.columns).map(|col| self.render_square(row, col)) }
-            </div>
-        }
-    }
-
-    fn render_square(&self, row: u32, col: u32) -> Html {
-        html! {
-            <div class="square"></div>
         }
     }
 }

@@ -1,3 +1,11 @@
+.nonogram-container {
+    display: flex;
+    /* float: left; */
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+
 .nonogram-board {
     gap: 0px; 
     padding: 0px;
@@ -6,8 +14,8 @@
 }
 
 .square {
-    width: 50px;
-    height: 50px;
+    width: 15px;
+    height: 15px;
     display: inline-block;
     border: 1px solid #000000;
     padding: 0px;
@@ -16,4 +24,17 @@
 
 .empty {
     background-color: #ffffff;
+}
+
+.row-rules-container {
+    font-size: 0px;
+}
+.row-rect {
+    width: 45px;
+    height: 15px;
+    display: block;
+    border: 1px solid #000000;
+    padding: 0px;
+    margin: 0px;
+    font-size: 10px;
 }
