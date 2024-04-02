@@ -1,5 +1,5 @@
 .nonogram-container {
-    display: flex;
+    display: grid;
     /* float: left; */
     margin: auto;
     align-items: center;
@@ -26,15 +26,51 @@
     background-color: #ffffff;
 }
 
+.grid-row-rules {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+}
+
+.grid-col-rules {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+}
+
+.grid-board {
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+}
+
 .row-rules-container {
     font-size: 0px;
+    width: fit-content;
 }
+
+.col-rules-container {
+    font-size: 0px;
+    height: fit-content;
+    display: flex;
+    align-items: stretch;
+}
+
 .row-rect {
-    width: 45px;
     height: 15px;
     display: block;
     border: 1px solid #000000;
     padding: 0px;
     margin: 0px;
     font-size: 10px;
+    text-align: right;
+}
+
+.col-rect {
+    text-align: center;
+    flex: 1;
+    border: 1px solid #000000;
+    padding: 0px;
+    margin: 0px;
+    font-size: 10px;
+    display: flex;
+    justify_content: center;
+    flex-direction: column;
 }

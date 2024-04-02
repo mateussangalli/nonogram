@@ -1,23 +1,71 @@
+use std::task::Wake;
+
 use yew::prelude::*;
 
 #[derive(PartialEq, Properties, Clone)]
 pub struct RuleBarProps {
-    pub rules: Vec<Vec<u32>>,
+    pub row_rules: Vec<Vec<u32>>,
+    pub col_rules: Vec<Vec<u32>>,
 }
 
-fn rule_to_string(rule: &[u32]) -> String {
-    rule.iter().map(|v| {format!("{:} ", v)}).collect()
+pub fn convert_rule_horizontal(rule: &[u32]) -> Html {
+    rule.iter().map(|v| {
+        let text = format!("{:} ", v);
+        html! {text}
+    }).collect()
+}
+
+pub fn convert_rule_vertical(rule: &[u32]) -> Html {
+    rule.iter()
+        .flat_map(|v| {
+            [
+                html! {
+                   {v}
+                },
+                html! {
+                    <br />
+                },
+            ]
+            .into_iter()
+        })
+        .collect()
 }
 
 #[function_component]
 pub fn RowRuleBar(props: &RuleBarProps) -> Html {
-    props.rules.iter()
+    html! {
+    <div class="row-rules-container">
+    {
+    props.row_rules
+        .iter()
         .map(|rule| {
             html! {
                 <div class="row-rect">
-                {rule_to_string(rule)}
+                {convert_rule_horizontal(rule)}
                 </div>
             }
         })
-        .collect()
+        .collect::<Html>()
+    }
+    </div>
+    }
+}
+
+#[function_component]
+pub fn ColRuleBar(props: &RuleBarProps) -> Html {
+    // let col_rules = convert_rules_vertical(&props.col_rules);
+    html! {
+    <div class="col-rules-container">
+        {props.col_rules.iter()
+                .map(|rule| {
+                    html! {
+                        <div class="col-rect">
+                        {convert_rule_vertical(rule)}
+                        </div>
+                    }
+                })
+                .collect::<Html>()
+        }
+    </div>
+    }
 }
