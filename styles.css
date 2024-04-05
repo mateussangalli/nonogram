@@ -13,18 +13,46 @@
     font-size: 0px;
 }
 
-.square {
+.square-filled {
     width: 15px;
     height: 15px;
     display: inline-block;
     border: 1px solid #000000;
     padding: 0px;
     margin: 0px;
+    background-color: #000000;
 }
 
-.empty {
+.square-empty {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border: 1px solid #000000;
+    padding: 0px;
+    margin: 0px;
     background-color: #ffffff;
 }
+
+.square-unknown {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border: 1px solid #000000;
+    padding: 0px;
+    margin: 0px;
+    background-color: #999999;
+}
+
+.square-unknown:hover {
+    border: 1px solid #00aabb;
+}
+.square-filled:hover {
+    border: 1px solid #00aabb;
+}
+.square-empty:hover {
+    border: 1px solid #990000;
+}
+
 
 .grid-row-rules {
     grid-column: 1 / span 1;

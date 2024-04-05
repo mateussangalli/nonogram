@@ -3,10 +3,11 @@ use serde_json::Result;
 use serde::Deserialize;
 use std::fs;
 
-mod grid;
+pub mod nonogram;
+pub mod grid;
 mod rule_bar;
 
-use grid::Grid;
+use grid::GridComponent;
 use rule_bar::{ColRuleBar, RowRuleBar};
 
 struct Nonogram {
@@ -35,6 +36,7 @@ impl Component for Nonogram {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        let values = vec![nonogram::SquareState::Unknown; (self.props.rows * self.props.cols) as usize];
         html! {
             <div class="nonogram-container">
                 <div class="grid-col-rules">
@@ -45,7 +47,7 @@ impl Component for Nonogram {
                     <RowRuleBar rules={ctx.props().row_rules.clone()}></RowRuleBar>
                 </div>
                 <div class="grid-board">
-                    <Grid rows={ctx.props().rows} columns={ctx.props().cols}></Grid>
+                    <GridComponent rows={ctx.props().rows} columns={ctx.props().cols} values={values}></GridComponent>
                 </div>
             </div>
         }
