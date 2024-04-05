@@ -1,4 +1,7 @@
 use yew::prelude::*;
+use serde_json::Result;
+use serde::Deserialize;
+use std::fs;
 
 mod grid;
 mod rule_bar;
@@ -7,43 +10,60 @@ use grid::Grid;
 use rule_bar::{ColRuleBar, RowRuleBar};
 
 struct Nonogram {
+    props: NonogramProperties,
+}
+
+#[derive(Deserialize, PartialEq, Properties, Clone)]
+struct NonogramProperties {
     rows: u32,
     cols: u32,
+    col_rules: Vec<Vec<u32>>,
+    row_rules: Vec<Vec<u32>>
 }
 
 impl Component for Nonogram {
     type Message = ();
 
-    type Properties = ();
+    type Properties = NonogramProperties;
 
-    fn create(_ctx: &Context<Self>) -> Self {
-        Nonogram { rows: 10, cols: 10 }
+    fn create(ctx: &Context<Self>) -> Self {
+        Nonogram { props: ctx.props().clone() }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, _msg: Self::Message) -> bool {
         true
     }
 
-    fn view(&self, _ctx: &Context<Self>) -> Html {
-        let row_rules = vec![vec![0], vec![4, 5, 6, 7, 8, 2], vec![0]];
-        let col_rules = vec![vec![1], vec![1, 1, 1], vec![1, 1]];
+    fn view(&self, ctx: &Context<Self>) -> Html {
         html! {
             <div class="nonogram-container">
                 <div class="grid-col-rules">
-                    <ColRuleBar row_rules={row_rules.clone()} col_rules={col_rules.clone()}></ColRuleBar>
+                    <ColRuleBar rules={ctx.props().col_rules.clone()}></ColRuleBar>
                 </div>
 
                 <div class="grid-row-rules">
-                    <RowRuleBar row_rules={row_rules.clone()} col_rules={col_rules.clone()}></RowRuleBar>
+                    <RowRuleBar rules={ctx.props().row_rules.clone()}></RowRuleBar>
                 </div>
                 <div class="grid-board">
-                    <Grid rows=3 columns=3></Grid>
+                    <Grid rows={ctx.props().rows} columns={ctx.props().cols}></Grid>
                 </div>
             </div>
         }
     }
 }
 
+#[function_component]
+fn App () -> Html {
+    const JSON_DATA: &str = include_str!("../assets/question.json");
+    // let data = fs::read_to_string("assets/question.json").expect("File not found.");
+
+    let props: NonogramProperties = serde_json::from_str(JSON_DATA).expect("Could not parse JSON");
+
+    html! {
+        <Nonogram cols={props.cols} rows={props.rows} col_rules={props.col_rules} row_rules={props.row_rules}/>
+    }
+}
+
 fn main() {
-    yew::Renderer::<Nonogram>::new().render();
+    yew::Renderer::<App>::new().render();
 }

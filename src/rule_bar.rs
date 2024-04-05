@@ -1,11 +1,8 @@
-use std::task::Wake;
-
 use yew::prelude::*;
 
 #[derive(PartialEq, Properties, Clone)]
 pub struct RuleBarProps {
-    pub row_rules: Vec<Vec<u32>>,
-    pub col_rules: Vec<Vec<u32>>,
+    pub rules: Vec<Vec<u32>>,
 }
 
 pub fn convert_rule_horizontal(rule: &[u32]) -> Html {
@@ -34,7 +31,7 @@ pub fn RowRuleBar(props: &RuleBarProps) -> Html {
     html! {
     <div class="row-rules-container">
     {
-    props.row_rules
+    props.rules
         .iter()
         .map(|rule| {
             html! {
@@ -51,10 +48,10 @@ pub fn RowRuleBar(props: &RuleBarProps) -> Html {
 
 #[function_component]
 pub fn ColRuleBar(props: &RuleBarProps) -> Html {
-    let size = props.col_rules.iter().map(Vec::len).max().unwrap();
+    let size = props.rules.iter().map(Vec::len).max().unwrap();
     html! {
     <div class="col-rules-container">
-        {props.col_rules.iter()
+        {props.rules.iter()
                 .map(|rule| {
                     html! {
                         <div class="col-rect">
