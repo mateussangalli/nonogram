@@ -9,25 +9,23 @@ pub struct RuleBarProps {
 }
 
 pub fn convert_rule_horizontal(rule: &[u32]) -> Html {
-    rule.iter().map(|v| {
-        let text = format!("{:} ", v);
-        html! {text}
-    }).collect()
+    rule.iter()
+        .map(|v| {
+            let text = format!("{:} ", v);
+            html! {text}
+        })
+        .collect()
 }
 
-pub fn convert_rule_vertical(rule: &[u32]) -> Html {
-    rule.iter()
-        .flat_map(|v| {
-            [
-                html! {
-                   {v}
-                },
-                html! {
-                    <br />
-                },
-            ]
-            .into_iter()
+pub fn convert_rule_vertical(rule: &[u32], size: usize) -> Html {
+    let diff = size - rule.len();
+    (0..diff)
+        .map(|_| {
+            html! {<div> {"‎ "} </div>}
         })
+        .chain(rule.iter().map(|v| {
+            html! { <div> {v} </div> }
+        }))
         .collect()
 }
 
@@ -53,14 +51,14 @@ pub fn RowRuleBar(props: &RuleBarProps) -> Html {
 
 #[function_component]
 pub fn ColRuleBar(props: &RuleBarProps) -> Html {
-    // let col_rules = convert_rules_vertical(&props.col_rules);
+    let size = props.col_rules.iter().map(Vec::len).max().unwrap();
     html! {
     <div class="col-rules-container">
         {props.col_rules.iter()
                 .map(|rule| {
                     html! {
                         <div class="col-rect">
-                        {convert_rule_vertical(rule)}
+                            {convert_rule_vertical(rule, size)}
                         </div>
                     }
                 })

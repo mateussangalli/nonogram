@@ -26,7 +26,7 @@ impl Component for Nonogram {
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         let row_rules = vec![vec![0], vec![4, 5, 6, 7, 8, 2], vec![0]];
-        let col_rules = vec![vec![1], vec![1, 1, 1], vec![1]];
+        let col_rules = vec![vec![1], vec![1, 1, 1], vec![1, 1]];
         html! {
             <div class="nonogram-container">
                 <div class="grid-col-rules">
